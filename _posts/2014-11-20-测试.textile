@@ -1,0 +1,50 @@
+---
+layout: post
+title: Amazon Aurora analysis
+---
+
+h1. {{ page.title }}
+
+p(meta). 19 Nov 2014 - Beijing
+
+The information about Aurora on the web is limited. The technical analysis below is based on guess at the appearance and behavior of Aurora. If Amazon publish more detail about Aurora in future, I will back to make an accurate analysis.
+
+If anyone can get me an Aurora priority preview, I'm appreciated.
+
+bq. "Amazon Aurora supports two kinds of replicas. ... You can also create MySQL Read Replicas based on MySQL’s binlog-based replication engine."[2]
+
+bq. "The Amazon Aurora database engine is designed to be wire-compatible with MySQL 5.6 using the InnoDB storage engine. Certain MySQL features like the MyISAM storage engine are not available with Amazon Aurora."[2]
+
+From the quotes above, Aurora is a MySQL 5.6 fork with a new modified storage engine. And the new storage engine is also a fork from InnoDB. It is straightforward to make a new storage engine in MySQL, because MySQL has an architecture with pluggable storage engine. In the annoucement, they emphasize the 5x performance increasement compared to original MySQL. Besides the improvement of the new storage engine, Aurora maybe has some performance improvement in the sql parsing or execution. Indeed, I doubt this performance number. Although they indicate usage of the same hardware, MySQL may run in default settings, not be tuned carefully. Dimitri had done some performance benchmark on MySQL 5.7 to do more than 500K point queries per second. With some improvements in Aurora's MySQL and Aurora's InnoDB, "over 500,000 SELECTs/sec and 100,000 updates/sec"[2] is not surprised.
+
+The most influential innovation is the idea in incremental storage allocation and billing for actual use. Another innovation is quorom writes to 6 copies across three AWS Availability Zones. All these features base on new SSD array. Many startups focus on SSD array like Pure Storage and SolidFire in the past few years. Amazon follows this trend building its own SSD array "purpose-built for database workloads"[2]. The array may not be a general purpose SAN, but it should have several key functions like virtualized storage management and replication. By putting database file on the array, Aurora do not provision storage, but allocate new space when necessary. As a result, Aurora can scale the database volume automatically and continuously.
+
+bq. "Storage is automatically replicated across three AWS Availability Zones (AZs) for durability and high availability, with two copies of the data in each Availability Zone. This two-dimensional redundancy (within and across Availability Zones) allows Amazon Aurora to make use of quorum writes."[3]
+
+Quorum writes also build into the SSD array storage. The default 6 copies is a high-end configuration, it will cost so much. Quorum writes may be implemented Dynamo-like or Paxos-like. However, it is a state-of-the-art replication technique with better performance and high availability. The protocol is complicated and is employed in the storage layer, so that the SQL and storage engine layer do not care about it.
+
+Due to the simplistic shared storage interface,  Aurora's modified InnoDB only changes little. It writes data as usual but manages database files with dynamic sizes.
+
+bq. "Amazon Aurora is designed to transparently handle the loss of up to two copies of data without affecting database write availability and up to three copies without affecting read availability."[2]
+
+The requirement of 4 write copies and 3 read copies prevents the data from loss and inconsistency due to disk failure or network partition. 6 copies locate in 3 AZs which are limited to 1 region. The latency between AZs in one region is small. So the latency of the quorum write will not be long. Aurora doesn't support cross region replicas now.
+
+Aurora has a weird feature:
+
+bq. "Amazon Aurora moves the buffer cache out of the database process and makes it available immediately at restart time. This prevents you from having to throttle access until the cache is repopulated to avoid brownouts."[2]
+
+Although it is a good feature, but it is really occasional. It happens only when server runs well but database process crashes. If the server crash, the buffer cache lost as well. 
+
+
+Most importantly, Aurora is just a beginning for AWS RDS and for Amazon. Just like Kindle Fire, which is forked from Android and then delivers its own features incrementally, competes with Google. Aurora opens a door for Amazon to integrate lots of features best suited to cloud in future, and declares a war on Oracle and Microsoft in relational database market.
+
+
+Reference:
+
+fn1. Amazon RDS for Aurora Product Details: http://aws.amazon.com/rds/aurora/details/
+
+fn2. Amazon RDS for Aurora Frequently Asked Questions: http://aws.amazon.com/rds/aurora/faqs/
+
+fn3. Amazon Aurora - New Cost-Effective MySQL-Compatible Database Engine for Amazon RDS: http://aws.amazon.com/blogs/aws/highly-scalable-mysql-compat-rds-db-engine/
+
+fn4. Hacker News Comment: https://news.ycombinator.com/item?id=8596900
