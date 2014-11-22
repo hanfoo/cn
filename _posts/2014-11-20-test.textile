@@ -1,0 +1,20 @@
+---
+layout: post
+title: 测试
+---
+
+h1. {{ page.title }}
+
+p(meta). 20 Nov 2014 - Beijing
+
+bq. "测试测试"[2]
+
+Reference:
+
+fn1. Amazon RDS for Aurora Product Details: http://aws.amazon.com/rds/aurora/details/
+
+fn2. Amazon RDS for Aurora Frequently Asked Questions: http://aws.amazon.com/rds/aurora/faqs/
+
+fn3. Amazon Aurora - New Cost-Effective MySQL-Compatible Database Engine for Amazon RDS: http://aws.amazon.com/blogs/aws/highly-scalable-mysql-compat-rds-db-engine/
+
+fn4. Hacker News Comment: https://news.ycombinator.com/item?id=8596900
