@@ -7,7 +7,7 @@ title: hanfoo
   <h1>文章</h1>
   <ul class="posts">
     {% for post in site.posts %}
-      <li><a href="/cn/{{ post.url }}">{{ post.title }}</a></li>
+      <li><a href="/cn{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
 
