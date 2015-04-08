@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 测试
+title: 写在 Aurora 还在 Preview 的日子里
 ---
 
-h1. {{ page.title }}
+# {{ page.title }}
 
-p(meta). 20 Nov 2014 - Beijing
+9 Apr 2015 - Beijing
 
-bq. "测试测试"[2]
+2014 年 11 月 12 日，在 AWS re:Invent 大会上，Amazon 发布了 RDS for Aurora 产品，一个自己研发的云数据库系统。
 
 Reference:
 
