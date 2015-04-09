@@ -4,10 +4,10 @@ title: hanfoo
 ---
 
 <div id="home">
-  <h1>文章</h1>
+  <h1>关于 Amazon RDS for Aurora</h1>
   <ul class="posts">
-    {% for post in site.posts %}
-      <li><a href="/cn{{ post.url }}">{{ post.title }}</a></li>
+    {% for post in site.amazon_aurora %}
+      <li><a href="/{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
 

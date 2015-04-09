@@ -1,3 +1,6 @@
 markdown: rdiscount
 pygments: true
 permalink: none
+collections:
+  amazon_aurora:
+    output: true
