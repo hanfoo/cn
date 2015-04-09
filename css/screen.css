@@ -22,7 +22,8 @@ body {
   text-align: center;
 }
 
-h1, h2, h3, h4, h5, h6 {
+#home h1, #home h2, #home h3, #home h4, #home h5, #home h6 {
+  font-size: 100%
 }
 
 h1 {
