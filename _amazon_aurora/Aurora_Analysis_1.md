@@ -5,7 +5,9 @@ title: 写在 Aurora 还在 Preview 的日子里（一）
 
 # {{ page.title }}
 
-**9 Apr 2015 - Beijing**
+_9 Apr 2015 - Beijing_
+
+![](images/introducing_amazon_aurora.jpg)
 
 2014 年 11 月 12 日，在 AWS re:Invent 大会上，Amazon 发布了 RDS for Aurora 产品，一个自己研发的云数据库系统。
 
