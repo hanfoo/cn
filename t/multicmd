@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+from subprocess import *
+import sys
+from datetime import datetime
+import time
+
+cmd_list = [
+]
+
+def execute(cmd):
+  check_call(cmd, shell = True)
+
+if __name__ == '__main__':
+  if len(sys.argv) != 2:
+    print 'Usage: %s 01234...' % (sys.argv[0])
+    for i in range(len(cmd_list)):
+      if i < 10:
+        c = '%d' % (i)
+      else:
+        c = chr(ord('A') + i - 10)
+      print '    %s: %s' % (c, cmd_list[i])
+    sys.exit(1)
+  for x in sys.argv[1]:
+    if ord(x) >= ord('0') and ord(x) <= ord('9'):
+      index = int(x)
+    else:
+      index = ord(x.upper()) - ord('A') + 10
+    if index >= 0 and index < len(cmd_list):
+      execute(cmd_list[index])
+    else:
+      print "Wrong index: %s" % (x)
